@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Open Comments -->
+
+<style>
+ .link-muted {
+  color: #aaa;;
+ }
+ .text {
+  font-size: 24px;
+ }
+ .rating-result {
+	width: 265px;
+	margin: 0 auto;
+}
+.rating-result span {
+	padding: 0;
+	font-size: 32px;
+	margin: 0 3px;
+	line-height: 1;
+	color: lightgrey;
+	text-shadow: 1px 1px #bbb;
+}
+.rating-result > span:before {
+	content: '★';
+}
+.rating-result > span.active {
+	color: gold;
+	text-shadow: 1px 1px #c60;
+
+}
+
+</style>
+<div class="col-lg-3">
+    <div class="row pb-3">
+        <div class="col d-grid">
+            {% if not my_com %}
+            <a href="{% url 'comments_add' product_id=pk%}"
+               class="h3 text-decoration-none">
+                <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">
+                    Add comment
+                </button>
+            </a>
+            {% else %}
+            <a href="{% url 'comment_edit' product_id=pk%}"
+               class="h3 text-decoration-none">
+                <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">
+                    Edit comment
+                </button>
+            </a>
+            <a href="{% url 'comment_del' product_id=pk%}">
+                <button type="submit" class="btn btn-danger btn-lg" name="submit"
+                        value="addtocard">
+                    Delete comment
+                </button>
+            </a>
+            {% endif %}
+            <a href="{% url 'shop_single' product_id=pk%}"
+               class="h3 text-decoration-none">
+                <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">
+                    Get Back
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+{{num_coms}}
+<section style="background-color: #ffffff;">
+    {% if coms %}
+
+    <div class="container my-5 py-5 text-dark">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-9 col-xl-7">
+                {% for i in coms %}
+                <div class="d-flex flex-start mb-4">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <div class="">
+                                <h5>{{i.user}}</h5>
+                                <p class="small">{{i.data_create}}</p>
+                                <p>
+                                    {{ i.text }}
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="rating-result">
+                                        {% with ''|center:i.review as range %}
+                                        {% for _ in range %}
+                                        <span class="active"></span>
+                                        {% endfor %}
+                                        {% endwith %}
+
+                                        {% with ''|center:i.review_p as range %}
+                                        {% for _ in range %}
+                                        <span></span>
+                                        {% endfor %}
+                                        {% endwith %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+<!-- Close Comments -->
+
+
+{% endblock  %}

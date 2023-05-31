@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for i in orders %}
+<div><p>
+<div>{{i.cost}}</div>
+    <div>{% for b in i.product.all %}
+        <div>
+        {{b}}
+        {{ b. }}
+        </div>
+    {% endfor %}</div>
+<div>{{ i.date }}</div>
+<div>{{ i.user }}</div>
+    </p>
+</div>
+{% endfor %}
+</body>
+</html>
