@@ -4,16 +4,20 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', index, name='index'),
+    # path('', index, name='index'),
+    path('', HomePage.as_view(), name='index'),
     path('cart', cart, name='cart'),
 
-    path('shop', main_page, name='shop'),
-    path('shop/men', main_page_men, name='shop_men'),
-    path('shop/women', main_page_women, name='shop_women'),
+    # path('shop', main_page, name='shop'),
+    path('shop', MainPage.as_view(), name='shop'),
+    path('shop/<slug:sex_slug>', MainPageSex.as_view(), name='sex'),
+    # path('shop/<slug:sex_slug>', MainPageSex.as_view(), name='shop_sex'),
+    # path('shop/women', main_page_women, name='shop_women'),
+    # path('shop/women', MainPageWomen.as_view(), name='shop_women'),
 
-    path('shop/brand/<int:brand_pk>', main_page_brand, name='shop_brand'),
-    path('shop/section/<int:section_pk>', main_page_section, name='shop_section'),
-    path('shop/type/<int:type_pk>', main_page_type, name='shop_type'),
+    path('shop/brand/<slug:category_brands_slug>', MainPageBrand.as_view(), name='shop_brand'),
+    path('shop/section/<slug:category_model_slug>', MainPageModel.as_view(), name='shop_model'),
+    path('shop/type/<slug:category_for_slug>', MainPageType.as_view(), name='shop_type'),
 
     path('brand', about, name='about'),
     path('contact', contact, name='contact'),

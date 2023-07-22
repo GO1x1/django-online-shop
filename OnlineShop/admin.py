@@ -4,12 +4,33 @@ from django.contrib import admin
 from OnlineShop.models import Product, Category_brands, Size, Sex, Category_model, Category_for, Color, Image, Card, \
     Cart, Order, Comment
 
-admin.site.register(Product)
-admin.site.register(Category_brands)
-admin.site.register(Category_model)
-admin.site.register(Category_for)
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+
+
+@admin.register(Sex)
+class SexAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+
+
+@admin.register(Category_model)
+class Category_modelAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+
+
+@admin.register(Category_for)
+class Category_forAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+
+
+@admin.register(Category_brands)
+class Category_brandsAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+
+
 admin.site.register(Size)
-admin.site.register(Sex)
 admin.site.register(Color)
 admin.site.register(Image)
 admin.site.register(Card)

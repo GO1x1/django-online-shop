@@ -3,9 +3,19 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
 from OnlineShop.forms import FormCard, CreateUserForm, CreateComs
-from OnlineShop.models import Product, Category_brands, Category_model, Category_for, Image, Card, Cart, Order, Comment
+from OnlineShop.models import Product, Category_brands, Category_model, Category_for, Image, Card, Cart, Order, Comment, \
+    Sex
+
+
+def alltype(kwargs):
+    kwargs['brands'] = Category_brands.objects.all()
+    kwargs['section'] = Category_model.objects.all()
+    kwargs['type'] = Category_for.objects.all()
+    kwargs['sex'] = Sex.objects.all()
+    return kwargs
 
 def pagination_p(request, context, items):
     if 'page' in request.GET:
@@ -29,73 +39,75 @@ def all_for_main_page():
     context = {'brands': brands, 'section': section, 'type': type}
     return context
 
+class MainPage(ListView):
+    model = Product
+    template_name = 'OnlineShop/shop.html'
+    context_object_name = 'items'
 
-def sex_men_or_women(num):
-    items = Product.objects.filter(sex=num)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return alltype(context)
 
-    return items
+class MainPageSex(ListView):
+    model = Product
+    template_name = 'OnlineShop/shop.html'
+    context_object_name = 'items'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return alltype(context)
 
-@login_required(login_url='login')
-def main_page(request):
-    items = Product.objects.all()
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
+    def get_queryset(self):
+        return Product.objects.filter(sex__slug=self.kwargs['sex_slug'])
 
+class MainPageBrand(ListView):
+    model = Product
+    template_name = 'OnlineShop/shop.html'
+    context_object_name = 'items'
 
-@login_required(login_url='login')
-def main_page_men(request):
-    items = sex_men_or_women(1)
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return alltype(context)
 
+    def get_queryset(self):
+        return Product.objects.filter(category_brands__slug=self.kwargs['category_brands_slug'])
 
-@login_required(login_url='login')
-def main_page_women(request):
-    items = sex_men_or_women(2)
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
+class MainPageModel(ListView):
+    model = Product
+    template_name = 'OnlineShop/shop.html'
+    context_object_name = 'items'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return alltype(context)
 
-@login_required(login_url='login')
-def main_page_brand(request, brand_pk):
-    items = Product.objects.filter(category_brands=brand_pk)
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
+    def get_queryset(self):
+        return Product.objects.filter(category_model__slug=self.kwargs['category_model_slug'])
 
+class MainPageType(ListView):
+    model = Product
+    template_name = 'OnlineShop/shop.html'
+    context_object_name = 'items'
 
-@login_required(login_url='login')
-def main_page_section(request, section_pk):
-    items = Product.objects.filter(category_model=section_pk)
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return alltype(context)
 
-
-@login_required(login_url='login')
-def main_page_type(request, type_pk):
-    items = Product.objects.filter(category_for=type_pk)
-    context = all_for_main_page()
-    pagination_p(request, context, items)
-    return render(request, 'OnlineShop/shop.html', context)
-
+    def get_queryset(self):
+        return Product.objects.filter(category_for__slug=self.kwargs['category_for_slug'])
 
 @login_required(login_url='login')
 def about(request):
     context = all_for_main_page()
     return render(request, 'OnlineShop/about.html', context)
 
+class HomePage(ListView):
+    model = Product
+    template_name = 'OnlineShop/index.html'
 
-@login_required(login_url='login')
-def index(request):
-    context = all_for_main_page()
-
-    return render(request, 'OnlineShop/index.html', context)
-
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 @login_required(login_url='login')
 def contact(request):
@@ -351,4 +363,3 @@ def comment_edit(request, product_id):
         form = CreateComs(instance=comss)
         context = {'form': form, 'pk': pk}
         return render(request, 'OnlineShop/comment_add.html', context)
-

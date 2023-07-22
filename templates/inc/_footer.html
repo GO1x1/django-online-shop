@@ -133,7 +133,7 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         {% category_type as categories_type %}
                         {% for i in categories_type %}
-                        <li><a class="text-decoration-none" href="{% url 'shop_type' type_pk=i.id%}">{{i}}</a></li>
+                        <li><a class="text-decoration-none" href="{{ i.get_absolute_url }}">{{i}}</a></li>
                         {% endfor %}
 
                     </ul>

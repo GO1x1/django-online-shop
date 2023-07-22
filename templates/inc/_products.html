@@ -7,12 +7,12 @@
                 <li class="list-inline-item">
                     <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'shop' %}">All</a>
                 </li>
+                {% for i in sex %}
                 <li class="list-inline-item">
-                    <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'shop_men' %}">Men's</a>
+                    <a class="h3 text-dark text-decoration-none mr-3" href="{{ i.get_absolute_url }}">{{i.title}}</a>
                 </li>
-                <li class="list-inline-item">
-                    <a class="h3 text-dark text-decoration-none" href="{% url 'shop_women' %}">Women's</a>
-                </li>
+                {% endfor %}
+
             </ul>
         </div>
         <div class="col-md-6 pb-4">

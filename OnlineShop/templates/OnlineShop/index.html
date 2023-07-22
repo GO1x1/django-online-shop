@@ -95,9 +95,9 @@
             {% categor_model as categor_models %}
             {% for i in categor_models %}
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="{% url 'shop_section' section_pk=i.pk %}"><img src="{{ i.photo.url }}" class="rounded-circle img-fluid border"></a>
+                <a href="{{ i.get_absolute_url }}"><img src="{{ i.photo.url }}" class="rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">{{ i.title }}</h5>
-                <p class="text-center"><a href="{% url 'shop_section' section_pk=i.pk %}" class="btn btn-success">Go Shop</a></p>
+                <p class="text-center"><a href="{{ i.get_absolute_url }}" class="btn btn-success">Go Shop</a></p>
             </div>
             {% endfor %}
 

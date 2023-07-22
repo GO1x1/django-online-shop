@@ -1,11 +1,15 @@
 from time import timezone
 
 from django.db import models
+from django.urls import reverse
 
 
 class Category_brands(models.Model):
     title = models.CharField(max_length=64)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse('shop_brand', kwargs={'category_brands_slug': self.slug})
 
     def __str__(self):
         return f'{self.title}'
@@ -14,6 +18,10 @@ class Category_brands(models.Model):
 class Category_model(models.Model):
     title = models.CharField(max_length=64)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='photo', blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('shop_model', kwargs={'category_model_slug': self.slug})
 
     def __str__(self):
         return f'{self.title}'
@@ -21,10 +29,13 @@ class Category_model(models.Model):
 
 class Category_for(models.Model):
     title = models.CharField(max_length=64)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('shop_type', kwargs={'category_for_slug': self.slug})
 
     def __str__(self):
         return f'{self.title}'
-
 
 
 class Size(models.Model):
@@ -32,6 +43,7 @@ class Size(models.Model):
 
     def __str__(self):
         return f'{self.size}'
+
 
 class Color(models.Model):
     size = models.CharField(max_length=64)
@@ -42,6 +54,10 @@ class Color(models.Model):
 
 class Sex(models.Model):
     title = models.CharField(max_length=10)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('sex', kwargs={'sex_slug': self.slug})
 
     def __str__(self):
         return f'{self.title}'
@@ -63,12 +79,15 @@ class Product(models.Model):
     category_brands = models.ForeignKey(Category_brands, on_delete=models.CASCADE, blank=True, null=True)
     category_model = models.ForeignKey(Category_model, on_delete=models.CASCADE, blank=True, null=True)
     category_for = models.ForeignKey(Category_for, on_delete=models.CASCADE, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     rating = models.IntegerField()
 
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'product_slug': self.slug})
+
     def __str__(self):
         return f'{self.title}'
-
 
 
 class Image(models.Model):
@@ -78,6 +97,7 @@ class Image(models.Model):
     def __str__(self):
         return f'{self.product}'
 
+
 class Card(models.Model):
     number = models.CharField(max_length=16)
     name = models.CharField(max_length=20)
@@ -86,7 +106,6 @@ class Card(models.Model):
     year = models.CharField(max_length=2)
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
 
-
     def __str__(self):
         return f'{self.name}'
 
@@ -94,6 +113,7 @@ class Card(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, blank=True)
+
     # title = models.CharField(max_length=64)
     # price = models.IntegerField()
     # quantity = models.IntegerField()
@@ -112,6 +132,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.product}, {self.date}, {self.cost}'
+
 
 class Comment(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)

@@ -11,7 +11,7 @@
             </a>
             <ul class="collapse show list-unstyled pl-3">
                 {% for i in brands %}
-                <li><a class="text-decoration-none" href="{% url 'shop_brand' brand_pk=i.id %}">{{i.title}}</a></li>
+                <li><a class="text-decoration-none" href="{{ i.get_absolute_url }}">{{i.title}}</a></li>
                 {% endfor %}
             </ul>
         </li>
@@ -23,7 +23,7 @@
             </a>
             <ul id="collapseTwo" class="collapse list-unstyled pl-3">
                 {% for i in section %}
-                <li><a class="text-decoration-none" href="{% url 'shop_section' section_pk=i.id %}">{{i.title}}</a></li>
+                <li><a class="text-decoration-none" href="{{ i.get_absolute_url }}">{{i.title}}</a></li>
                 {% endfor %}
             </ul>
         </li>
@@ -35,7 +35,7 @@
             </a>
             <ul id="collapseThree" class="collapse list-unstyled pl-3">
                 {% for i in type %}
-                <li><a class="text-decoration-none" href="{% url 'shop_type' type_pk=i.id %}">{{i.title}}</a></li>
+                <li><a class="text-decoration-none" href="{{ i.get_absolute_url }}">{{i.title}}</a></li>
                 {% endfor %}
             </ul>
         </li>
