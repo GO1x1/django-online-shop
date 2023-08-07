@@ -1,0 +1,13 @@
+[33mcommit f38cfadec8a95357e55b95337624ec21074aa997[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Mosunov Danil <dvmosunov@mail.ru>
+Date:   Sat Jul 22 14:17:33 2023 +0300
+
+    add database
+
+[33mcommit 6758d9788f99eeb3a97cd6d7bb24bac9683bf105[m
+Author: GO1x1 <danil_mosunov@mail.ru>
+Date:   Wed May 31 13:11:58 2023 +0300
+
+    django online-shop
+    
+    django online-shop

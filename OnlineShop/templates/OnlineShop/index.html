@@ -120,7 +120,7 @@
                 {% for i in prods %}
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
-                        <a href="{% url 'shop_single' product_id=i.pk%}">
+                        <a href="{{i.get_absolute_url}}">
                             <img src="{{i.photo.url}}" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
@@ -134,7 +134,7 @@
                                 </li>
                                 <li class="text-muted text-right">₽{{i.price}}</li>
                             </ul>
-                            <a href="{% url 'shop_single' product_id=i.pk%}" class="h2 text-decoration-none text-dark">{{ i.title }}</a>
+                            <a href="{{i.get_absolute_url}}" class="h2 text-decoration-none text-dark">{{ i.title }}</a>
                             <p class="card-text">
                                 {{i.description}}
                             </p>

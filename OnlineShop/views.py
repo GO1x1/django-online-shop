@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from OnlineShop.forms import FormCard, CreateUserForm, CreateComs
 from OnlineShop.models import Product, Category_brands, Category_model, Category_for, Image, Card, Cart, Order, Comment, \
@@ -96,45 +96,39 @@ class MainPageType(ListView):
     def get_queryset(self):
         return Product.objects.filter(category_for__slug=self.kwargs['category_for_slug'])
 
-@login_required(login_url='login')
-def about(request):
-    context = all_for_main_page()
-    return render(request, 'OnlineShop/about.html', context)
+class AboutPage(ListView):
+    model = Product
+    template_name = 'OnlineShop/about.html'
 
 class HomePage(ListView):
     model = Product
     template_name = 'OnlineShop/index.html'
 
+
+class HomePage(ListView):
+    model = Product
+    template_name = 'OnlineShop/index.html'
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'OnlineShop/shop-single.html'
+    slug_url_kwarg = 'product_slug'
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['items'] = Product.objects.filter(category_model = kwargs['object'].category_model)
         return context
 
-@login_required(login_url='login')
-def contact(request):
-    context = all_for_main_page()
-    return render(request, 'OnlineShop/contact.html', context)
+class CartView(ListView):
+    model = Cart
+    template_name = 'OnlineShop/cart.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(kwargs)
+        context['items'] = Cart.objects.filter()
 
-@login_required(login_url='login')
-def shop_single(request, product_id):
-    type = Category_for.objects.all()
-    product = Product.objects.get(id=product_id)
-    images = Image.objects.filter(product=product_id)
-    items = Product.objects.filter(category_model=product.category_model)[:3]
-
-    if len(Comment.objects.filter(product=product_id)) == 0:
-        num_coms = '"Not yet"'
-        len_coms = '"Not yet"'
-    else:
-        num_coms = sum(i.review for i in Comment.objects.filter(product=product_id)) / len(
-            Comment.objects.filter(product=product_id))
-        product.rating = num_coms
-        product.save()
-        len_coms = len(Comment.objects.filter(product=product_id))
-    context = {'items': items, 'product': product, 'images': images, 'type': type, 'num_coms': num_coms,
-               'len_coms': len_coms}
-    return render(request, 'OnlineShop/shop-single.html', context)
-
+        return context
 
 @login_required(login_url='login')
 def cart(request):

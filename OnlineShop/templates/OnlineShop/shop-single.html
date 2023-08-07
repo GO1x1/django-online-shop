@@ -177,20 +177,20 @@
                         {% endif %}
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
-                                <li><a class="btn btn-success text-white" href="{% url 'shop_single' product_id=i.id%}"><i
+                                <li><a class="btn btn-success text-white" href="{{i.get_absolute_url}}"><i
                                         class="far fa-heart"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2"
-                                       href="{% url 'shop_single' product_id=i.id%}"><i
+                                       href="{{i.get_absolute_url}}"><i
                                         class="far fa-eye"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2"
-                                       href="{% url 'shop_single' product_id=i.id%}"><i
+                                       href="{{i.get_absolute_url}}"><i
                                         class="fas fa-cart-plus"></i></a></li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <a href="{% url 'shop_single' product_id=i.id%}" class="h3 text-decoration-none">{{i.title}}</a>
+                        <a href="{{i.get_absolute_url}}" class="h3 text-decoration-none">{{i.title}}</a>
                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                             <li>
                                 {% for i in i.size.all %}

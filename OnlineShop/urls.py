@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
     # path('', index, name='index'),
     path('', HomePage.as_view(), name='index'),
-    path('cart', cart, name='cart'),
+    path('cart', CartView.as_view(), name='cart'),
 
     # path('shop', main_page, name='shop'),
     path('shop', MainPage.as_view(), name='shop'),
@@ -19,9 +19,11 @@ urlpatterns = [
     path('shop/section/<slug:category_model_slug>', MainPageModel.as_view(), name='shop_model'),
     path('shop/type/<slug:category_for_slug>', MainPageType.as_view(), name='shop_type'),
 
-    path('brand', about, name='about'),
-    path('contact', contact, name='contact'),
-    path('product/<int:product_id>', shop_single, name='shop_single'),
+    path('brand', AboutPage.as_view(), name='about'),
+    path('contact', HomePage.as_view(), name='contact'),
+
+    path('product/<slug:product_slug>', ProductDetailView.as_view(), name='shop_single'),
+
     path('add_to_cart/<int:product_id>', add_to_cart, name='add_to_cart'),
     path('add_to_cart_and_go_cart/<int:product_id>', add_to_cart_and_go_cart, name='add_to_cart_and_go_cart'),
 
