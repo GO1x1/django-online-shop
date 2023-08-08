@@ -110,28 +110,28 @@ class Card(models.Model):
         return f'{self.name}'
 
 
-# class Cart(models.Model):
-#     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-#     product = models.ManyToManyField(Product, blank=True)
-#
-#     # title = models.CharField(max_length=64)
-#     # price = models.IntegerField()
-#     # quantity = models.IntegerField()
-#     # photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='photo', blank=True)
-#
-#     def __str__(self):
-#         return f'{self.user}'
-#
-#
-# class Order(models.Model):
-#     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-#     product = models.ManyToManyField(Product, blank=True)
-#     date = models.DateTimeField(auto_now_add=True)
-#     cost = models.IntegerField(null=True)
-#     quantity_prod = models.IntegerField(null=True)
-#
-#     def __str__(self):
-#         return f'{self.user}, {self.product}, {self.date}, {self.cost}'
+class Cart(models.Model):
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product, blank=True)
+
+    # title = models.CharField(max_length=64)
+    # price = models.IntegerField()
+    # quantity = models.IntegerField()
+    # photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='photo', blank=True)
+
+    def __str__(self):
+        return f'{self.user}'
+
+
+class Order(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    cost = models.IntegerField(null=True)
+    quantity_prod = models.IntegerField(null=True)
+
+    def __str__(self):
+        return f'{self.user}, {self.product}, {self.date}, {self.cost}'
 
 
 class Comment(models.Model):

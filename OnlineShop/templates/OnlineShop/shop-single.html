@@ -5,7 +5,6 @@
 {% block content %}
 
 
-
 <!-- Open Content -->
 <section class="bg-light">
     <div class="container pb-5">
@@ -70,7 +69,8 @@
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-secondary"></i>
-                            <span class="list-inline-item text-dark">Rating {{num_coms}} | {{len_coms}} <a href="{% url 'comments' product_id=product.pk %}"> Comments</a></span>
+                            <span class="list-inline-item text-dark">Rating {{num_coms}} | {{len_coms}} <a
+                                    href="{% url 'comments' product_id=product.pk %}"> Comments</a></span>
                         </p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
@@ -136,23 +136,26 @@
 
                             <div class="row pb-3">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy"><a href="{% url 'add_to_cart_and_go_cart' product_id=product.id %}"
-                                           class="h3 text-decoration-none">
+                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy"><a
+                                            href="{% url 'add_to_cart_and_go_cart' product_id=product.id %}"
+                                            class="h3 text-decoration-none">
                                         Buy To Cart
                                     </a></button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit"
-                                            value="addtocard"><a href="{% url 'add_to_cart' product_id=product.id%}">
-                                        Add To Cart</a></button>
-                                </div>
-                            </div>
+                                    <form action="{% url 'cart_add' product_id=product.id %}" method="post">
+                                    {{ form }}
+                                    {% csrf_token %}
+                                    <input type="submit" value="Add to cart">
                         </form>
-
                     </div>
                 </div>
+                </form>
+
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </section>
 <!-- Close Content -->

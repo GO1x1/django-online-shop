@@ -15,6 +15,7 @@ class Cart(object):
             # сохраняем ПУСТУЮ корзину в сессии
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        print(cart, 1)
 
     def __iter__(self):
         """
@@ -52,6 +53,7 @@ class Cart(object):
         else:
             self.cart[product_id]['quantity'] += quantity
         self.save()
+
 
     def save(self):
         # сохраняем товар

@@ -1,12 +1,14 @@
 
 from django.contrib import admin
 from django.urls import path
+
+from cart.views import cart_add
 from .views import *
 
 urlpatterns = [
     # path('', index, name='index'),
     path('', HomePage.as_view(), name='index'),
-    path('cart', CartView.as_view(), name='cart'),
+    path('cartt', cart, name='cart'),
 
     # path('shop', main_page, name='shop'),
     path('shop', MainPage.as_view(), name='shop'),
@@ -24,7 +26,8 @@ urlpatterns = [
 
     path('product/<slug:product_slug>', ProductDetailView.as_view(), name='shop_single'),
 
-    path('add_to_cart/<int:product_id>', add_to_cart, name='add_to_cart'),
+    path('add_to_cart/<int:product_id>', cart_add, name='add_to_cart'),
+
     path('add_to_cart_and_go_cart/<int:product_id>', add_to_cart_and_go_cart, name='add_to_cart_and_go_cart'),
 
     path('card/add', card_add, name='card_add'),
