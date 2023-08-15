@@ -68,9 +68,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     in_stock = models.BooleanField
-    quantity = models.IntegerField(default=0)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='photo', blank=True)
-    quantity_f = models.IntegerField()
 
     size = models.ManyToManyField(Size, blank=True)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE, blank=True, null=True)

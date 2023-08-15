@@ -119,46 +119,14 @@ class ProductDetailView(FormView, DetailView):
     form_class = CartAddProductForm
     success_url = reverse_lazy('cart_detail')
 
-    def get_success_url(self):
-        return reverse_lazy('cart_detail')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['items'] = Product.objects.filter(category_model = kwargs['object'].category_model)
-        context['form'] = self.get_form()
+        context['cart_product_form'] = self.get_form()
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            form.save()
-            return super(ProductDetailView, self).form_valid(form)
-        else:
-            return self.form_invalid(form)
 
-# Оба класса рабочие, форма вызывается, но вьюха и карт не срабатывает
-
-
-# def shop_single(request, product_slug):
-#     type = Category_for.objects.all()
-#     product = Product.objects.get(slug=product_slug)
-#     images = Image.objects.filter(product=product.id)
-#     items = Product.objects.filter(category_model=product.category_model)[:3]
-#
-#     if len(Comment.objects.filter(product=product.id)) == 0:
-#         num_coms = '"Not yet"'
-#         len_coms = '"Not yet"'
-#     else:
-#         num_coms = sum(i.review for i in Comment.objects.filter(product=product.id)) / len(
-#             Comment.objects.filter(product=product.id))
-#         product.rating = num_coms
-#         product.save()
-#         len_coms = len(Comment.objects.filter(product=product.id))
-#     form = CartAddProductForm()
-#     context = {'items': items, 'product': product, 'images': images, 'type': type, 'num_coms': num_coms,
-#                'len_coms': len_coms, 'form': form}
-#     return render(request, 'OnlineShop/shop-single.html', context)
 
 @login_required(login_url='login')
 def cart(request):

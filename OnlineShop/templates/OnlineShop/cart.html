@@ -2,92 +2,51 @@
 
 {% load static %}
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина товаров</title>
-    <link rel="stylesheet" href="{% static './css/main.css' %}">
-</head>
-<body>
-
-    <section class="section-cart">
-        <header class="section-cart__header">
-            <div class="container">
-                <h1 class="title-1">Cart</h1>
-            </div>
-        </header>
-        {% if items.product.all %}
-        <div class="section-cart__body">
-            <div class="container">
-
-                <section class="cart">
-                    <header class="cart-header">
-                        <div class="cart-header__title">name</div>
-                        <div class="cart-header__count">quantity</div>
-                        <div class="cart-header__cost">price</div>
-                    </header>
-                    {% for i in items.product.all %}
-                    <section class="product">
-                        <div class="product__img"><img src="{{ i.photo.url }}" alt="Apple MacBook Air 13"></div>
-                        <div class="product__title">{{i.title}}</div>
-                        <div class="product__count">
-                            <div class="count">
-
-                                <div class="count__box">
-                                    <input type="number" class="count__input" min="1" max="100" value="{{ i.quantity }}">
-                                </div>
-
-                                <div class="count__controls">
-                                    <a href="{%url 'qount_plus' prod_pk=i.pk%}"><button type="button" class="count__up">
-                                        <img src="{% static './img/icons/icon-up.svg' %}" alt="Increase"><li class="list-inline-item"></li>
-                                    </button></a>
-                                    <a href="{%url 'qount_min' prod_pk=i.pk%}"><button type="button" class="count__down">
-                                        <img src="{% static './img/icons/icon-down.svg' %}" alt="Decrease">
-                                    </button></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product__price">{{i.quantity_f}} руб.</div>
-                        <div class="product__controls">
-                            <button type="button"><a href="{% url 'delete_p_f_cart' pr_pk=i.pk%}">
-                                <img src="{% static './img/icons/cross.svg' %}" alt="Delete">
-                            </a></button>
-                        </div>
-                    </section>
-                    {% endfor %}
-
-
-
-                    <footer class="cart-footer">
-                        <p class="text-center"><a href="{% url 'delete_p_f_cart_all' %}" class="btn btn-success">Delete Cart</a></p>
-                        <div class="cart-footer__count">{{len_p}} products</div>
-                        <div class="cart-footer__price">{{sum_p}} руб.</div>
-                    </footer>
-                </section>
-
-            </div>
-
-        </div>
-        <p><p class="text-center"><a href="{% url 'order_create' %}" class="btn btn-success">Create order</a></p></p>
-        {% else %}
-        <header class="section-cart__header">
-            <h2 class="title-1">Cart is clean</h2>
-            <h1 class="title-1">Add new clothes at <a href="{% url 'shop' %}"><h1 class="title-1">shop</h1></a></h1>
-        </header>
-        {% endif %}
-
-
-    </section>
-
-    {% if card %}
-    <p class="text-center"><a href="{% url 'card_delete' %}" class="btn btn-success">Delete Card</a></p>
-    {% else %}
-    <p class="text-center"><a href="{% url 'card_add' %}" class="btn btn-success">Add Card</a></p>
-    {% endif %}
-
-</body>
-</html>
-
+  <h1>Ваша корзина товаров</h1>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Изображение</th>
+        <th>Продукт</th>
+        <th>Количество</th>
+        <th>Удалить</th>
+        <th>Полная цена</th>
+        <th>Цена</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with product=item.product %}
+          <tr>
+            <td>
+              <a href="{{ product.get_absolute_url }}">
+                <img src="{{ product.image.url }}" alt="" />
+              </a>
+            </td>
+            <td>{{ item.product.title }}</td>
+            <td>
+              <form action="{% url 'cart_add' product.id %}" method="post" class="add">
+                {{ item.update_quantity_form.quantity }}
+                {{ item.update_quantity_form.update }}
+                {% csrf_token %}
+                <input type="submit" value="Обновить">
+              </form>
+            </td>
+            <td><a href="{% url 'cart_remove' product.id %}">Удалить</a></td>
+            <td class="num">{{ item.price }} руб.</td>
+            <td class="num">{{ item.total_price }} руб.</td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+        <tr class="total">
+          <td>Total</td>
+          <td colspan="4"></td>
+          <td class="num">{{ cart.get_total_price }} руб.</td>
+        </tr>
+    </tbody>
+  </table>
+  <p class="text-right">
+    <a href="#" class="btn">Продолжить Шопинг</a>
+    <a href="#">Оформить заказ</a>
+  </p>
 {% endblock %}
