@@ -16,16 +16,11 @@ urlpatterns = [
     path('contact', HomePage.as_view(), name='contact'),
 
     path('product/<slug:product_slug>', ProductDetailView.as_view(), name='shop_single'),
-    path('order', order, name='order'),
-    path('order/create', order_create, name='order_create'),
+    # path('order', order, name='order'),
+    # path('order/create', order_create, name='order_create'),
 
     path('login', login_page, name='login'),
     path('register', register, name='register'),
     path('logout_user', logout_user, name='logout_user'),
-
-    path('product/<int:product_id>/comments', comments, name='comments'),
-    path('product/<int:product_id>/comments/add', comments_add, name='comments_add'),
-    path('product/<int:product_id>/comments/delete', comment_del, name='comment_del'),
-    path('product/<int:product_id>/comments/edit', comment_edit, name='comment_edit'),
 
 ]

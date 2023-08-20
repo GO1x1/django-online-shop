@@ -96,31 +96,6 @@ class Image(models.Model):
         return f'{self.product}'
 
 
-class Card(models.Model):
-    number = models.CharField(max_length=16)
-    name = models.CharField(max_length=20)
-    cvc = models.CharField(max_length=3)
-    month = models.CharField(max_length=2)
-    year = models.CharField(max_length=2)
-    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.name}'
-
-
-class Cart(models.Model):
-    user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product, blank=True)
-
-    # title = models.CharField(max_length=64)
-    # price = models.IntegerField()
-    # quantity = models.IntegerField()
-    # photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='photo', blank=True)
-
-    def __str__(self):
-        return f'{self.user}'
-
-
 class Order(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, blank=True)
@@ -131,14 +106,3 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.user}, {self.product}, {self.date}, {self.cost}'
 
-
-class Comment(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    text = models.TextField(null=True)
-    review = models.IntegerField()
-    review_p = models.IntegerField()
-    data_create = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.product}, {self.user}'
